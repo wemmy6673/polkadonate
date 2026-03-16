@@ -1,0 +1,6 @@
+[
+  "function getRate() view returns (uint256)",
+  "function getTokensOut(uint256 dotAmount) view returns (uint256)",
+  "function swap(uint256 dotAmount) payable returns (uint256 pdtReceived)",
+  "event Swapped(address indexed user, uint256 dotAmount, uint256 pdtAmount)"
+]
