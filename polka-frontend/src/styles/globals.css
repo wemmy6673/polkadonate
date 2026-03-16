@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* RainbowKit theme overrides — orange accent to match design system */
+[data-rk] {
+  --rk-colors-accentColor:                    #ff6b1a !important;
+  --rk-colors-accentColorForeground:          #ffffff !important;
+  --rk-colors-modalBackground:                #0d1525 !important;
+  --rk-colors-modalBorder:                    #1a2a45 !important;
+  --rk-colors-menuItemBackground:             #111e33 !important;
+  --rk-colors-profileForeground:              #111e33 !important;
+  --rk-colors-selectedOptionBorder:           rgba(255,107,26,.5) !important;
+  --rk-colors-connectButtonBackground:        #0d1525 !important;
+  --rk-colors-connectButtonInnerBackground:   #111e33 !important;
+  --rk-colors-connectButtonText:              #e8edf5 !important;
+  --rk-radii-connectButton:                   10px !important;
+  --rk-radii-modal:                           18px !important;
+  --rk-radii-menuButton:                      10px !important;
+  --rk-fonts-body:                            'Syne', sans-serif !important;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -17,9 +36,9 @@
     background-color: #070b14;
     color: #e8edf5;
      font-family: "Lilex", monospace;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
     overflow-x: hidden;
     min-height: 100vh;
   }

@@ -1,26 +1,45 @@
-import { useWalletStore } from '@/store/walletStore'
-import { useToastStore }  from '@/store/toastStore'
+import { useWriteContract }        from 'wagmi'
+import { useWallet }               from './useWallet'
+import { useToastStore }           from '@/store/toastStore'
+import { ADDRESSES }               from '@/contracts/addresses'
+import SwapABI                     from '@/contracts/abis/SwapContract.json'
 
 const RATE = 100 // 1 DOT = 100 PDT
 
 export function useSwap() {
-  const wallet = useWalletStore()
-  const toast  = useToastStore((s) => s.add)
+  const { connected, dot, addPdt } = useWallet()
+  const toast = useToastStore((s) => s.add)
+  const { writeContractAsync } = useWriteContract()
 
   const getTokensOut = (dotAmount) => dotAmount * RATE
 
   const swap = async (dotAmount) => {
-    if (!wallet.connected) throw new Error('Wallet not connected')
-    if (dotAmount > wallet.dot) throw new Error('Insufficient DOT balance')
+    if (!connected)      throw new Error('Wallet not connected')
+    if (dotAmount <= 0)  throw new Error('Invalid amount')
+    if (dotAmount > dot) throw new Error('Insufficient DOT balance')
 
     toast('pending', 'Transaction Pending…', `SwapContract.swap(${dotAmount} DOT)`)
 
-    // In production: call SwapContract.swap() via ethers.js
-    await new Promise((r) => setTimeout(r, 2000))
+    try {
+      // Production path — uncomment once contracts are deployed:
+      // const hash = await writeContractAsync({
+      //   address:      ADDRESSES.SWAP_CONTRACT,
+      //   abi:          SwapABI,
+      //   functionName: 'swap',
+      //   value:        parseEther(dotAmount.toString()),
+      // })
+      // await waitForTransactionReceipt(wagmiConfig, { hash })
 
-    wallet.updateBalances(-dotAmount, dotAmount * RATE)
-    toast('success', 'Swap Complete!', `Received ${(dotAmount * RATE).toLocaleString()} PDT`)
-    return dotAmount * RATE
+      await new Promise((r) => setTimeout(r, 2000)) // demo
+
+      const received = dotAmount * RATE
+      addPdt(received)
+      toast('success', 'Swap Complete!', `Received ${received.toLocaleString()} PDT`)
+      return received
+    } catch (err) {
+      toast('error', 'Swap Failed', err.shortMessage ?? err.message)
+      throw err
+    }
   }
 
   return { swap, getTokensOut, rate: RATE }

@@ -1,29 +1,14 @@
 import { create } from 'zustand'
 
-export const useWalletStore = create((set, get) => ({
-  connected: false,
-  address: '',
-  dot: 50.0,
-  pdt: 0,
+/**
+ * walletStore only tracks PDT token balance and swap deltas.
+ * All wallet connection state (address, chainId, isConnected)
+ * comes directly from wagmi's useAccount() and useBalance() hooks.
+ */
+export const useWalletStore = create((set) => ({
+  pdt: 1250, // demo — replace with ERC20.balanceOf(address) once live
 
-  connect: (address) => set({
-    connected: true,
-    address,
-    dot: 50.0,
-    pdt: 1250,
-  }),
-
-  disconnect: () => set({
-    connected: false,
-    address: '',
-    dot: 50.0,
-    pdt: 0,
-  }),
-
-  updateBalances: (dotDelta, pdtDelta) => set((s) => ({
-    dot: s.dot + dotDelta,
-    pdt: s.pdt + pdtDelta,
-  })),
-
+  setPdt:    (amount) => set({ pdt: amount }),
+  addPdt:    (amount) => set((s) => ({ pdt: s.pdt + amount })),
   deductPdt: (amount) => set((s) => ({ pdt: s.pdt - amount })),
 }))

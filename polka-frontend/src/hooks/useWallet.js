@@ -1,38 +1,41 @@
-import { useWalletStore } from '@/store/walletStore'
-import { useToastStore } from '@/store/toastStore'
-import { CHAIN_ID } from '@/contracts/addresses'
-
-// Mock wallet addresses per provider for demo
-const MOCK_ADDRESSES = {
-  polkadot:      '0x3f8A…b2c9',
-  walletconnect: '0x9d1F…e4a7',
-  metamask:      '0x5c2B…f8d1',
-}
+import { useAccount, useBalance, useDisconnect } from 'wagmi'
+import { useConnectModal }   from '@rainbow-me/rainbowkit'
+import { useWalletStore }    from '@/store/walletStore'
+import { ADDRESSES }         from '@/contracts/addresses'
 
 export function useWallet() {
-  const store   = useWalletStore()
-  const toast   = useToastStore((s) => s.add)
+  const { address, isConnected, chainId } = useAccount()
+  const { disconnect }      = useDisconnect()
+  const { openConnectModal } = useConnectModal()
 
-  const connect = async (providerType) => {
-    toast('pending', 'Connecting…', 'Awaiting wallet signature')
+  // Native DOT balance on Polkadot Hub Testnet
+  const { data: dotData } = useBalance({
+    address,
+    query: { enabled: !!address },
+  })
 
-    // In production: use ethers.js BrowserProvider / WalletConnect
-    // Here we simulate the async handshake
-    await new Promise((r) => setTimeout(r, 1400))
+  // ERC-20 PDT token balance — uncomment once contracts are deployed:
+  // const { data: pdtData } = useBalance({
+  //   address,
+  //   token: ADDRESSES.ERC20_TOKEN,
+  //   query: { enabled: !!address },
+  // })
 
-    const address = MOCK_ADDRESSES[providerType] ?? '0xUnknown'
-    store.connect(address)
-    toast('success', 'Wallet Connected', `${address} · Polkadot Hub Testnet`)
-  }
+  const { pdt, addPdt, deductPdt } = useWalletStore()
 
-  const disconnect = () => {
-    store.disconnect()
-    toast('success', 'Disconnected', 'Wallet safely disconnected')
-  }
+  const dotBalance = dotData
+    ? parseFloat(dotData.formatted).toFixed(4)
+    : '50.0000' // demo fallback
 
   return {
-    ...store,
-    connect,
+    connected:       isConnected,
+    address:         address ?? '',
+    chainId,
+    dot:             parseFloat(dotBalance),
+    pdt,
+    openConnectModal,
     disconnect,
+    addPdt,
+    deductPdt,
   }
 }
