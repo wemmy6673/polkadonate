@@ -11,19 +11,16 @@ const STATS = [
 const HOW_IT_WORKS = [
   {
     num:  'Step 1',
-    icon: '🔌',
     title: 'Connect Wallet',
     desc:  "By establishing a connection with your EVM-compatible wallet, you are effectively initializing a digital fingerprint where your on-chain address serves as the foundational anchor for your entire ecosystem identity.",
   },
   {
     num:  'Step 2',
-    icon: '⇄',
-    title: 'Swap DOT → PDT',
-    desc:  'By interacting with our decentralized swap protocol, you can seamlessly convert your Polkadot testnet holdings into the platform’s specific tokens. Once the exchange is complete, you may use PDT—the primary medium of exchange—to contribute to various donation initiatives.',
+    title: 'Get Testnet Tokens',
+    desc:  'To get started with donations on the Polkadonate platform, head over to the official polkadot faucet and claim your free tokens. These tokens serve as the primary donation currency across the platform, allowing you to participate fully without spending real funds',
   },
   {
     num:  'Step 3',
-    icon: '🎯',
     title: 'Donate or Launch',
     desc:  'Take the opportunity to browse our curated selection of verified causes and provide support through PDT contributions; should you have a mission of your own, our platform enables you to establish a personalized fundraiser where every detail is secured via IPFS for transparent, tamper-proof record-keeping.',
   },

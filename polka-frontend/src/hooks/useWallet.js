@@ -35,7 +35,6 @@ export function useWallet() {
     pdt,
     openConnectModal,
     disconnect,
-    addPdt,
     deductPdt,
   }
 }

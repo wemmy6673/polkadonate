@@ -6,7 +6,6 @@ import { formatToken, shortAddress } from '@/utils/formatters'
 
 const NAV_LINKS = [
   { to: '/',          label: 'Home'      },
-  { to: '/swap',      label: 'Swap'      },
   { to: '/causes',    label: 'Causes'    },
   { to: '/create',    label: 'Create'    },
   { to: '/dashboard', label: 'Dashboard' },
@@ -24,16 +23,16 @@ export default function Navbar() {
       {/* Logo */}
       <NavLink
         to="/"
-        className="flex items-center gap-2.5 font-extrabold text-lg tracking-tight"
+        className="flex items-center gap-2.5 font-extrabold text-xl tracking-tight"
         style={{ letterSpacing: '-.02em' }}
       >
         <span
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-sm shadow-orange"
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-lg shadow-orange"
           style={{ background: 'linear-gradient(135deg,#ff6b1a,#cc4f0a)' }}
         >
           ◆
         </span>
-        Polka<span className="text-orange">Donate</span>
+        Polka<span className="text-orange text-lg">Donate</span>
       </NavLink>
 
       {/* Desktop nav links */}
@@ -44,7 +43,7 @@ export default function Navbar() {
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-150 ${
+              `px-4 py-2 rounded-lg text-md font-semibold transition-colors duration-150 ${
                 isActive
                   ? 'bg-surface2 text-orange'
                   : 'text-muted hover:bg-surface hover:text-white'
@@ -84,11 +83,7 @@ export default function Navbar() {
             if (account) {
               return (
                 <div className="flex items-center gap-2">
-                  {/* PDT balance pill */}
-                  <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full font-mono text-xs bg-surface border border-border text-muted">
-                    <span className="text-orange font-semibold">{formatToken(pdt)}</span> PDT
-                  </div>
-
+                  
                   {/* Account button → opens RainbowKit account modal */}
                   <button
                     onClick={openAccountModal}
@@ -123,7 +118,7 @@ export default function Navbar() {
             return (
               <button
                 onClick={openConnectModal}
-                className="inline-flex items-center gap-2 font-bold rounded-xl border-0 cursor-pointer transition-all duration-200 px-4 py-2 text-xs text-white"
+                className="inline-flex items-center gap-2 font-bold rounded-xl border-0 cursor-pointer transition-all duration-200 px-4 py-3 text-sm text-white"
                 style={{
                   background:  'linear-gradient(135deg,#ff6b1a,#cc4f0a)',
                   boxShadow:   '0 0 28px rgba(255,107,26,.4)',
