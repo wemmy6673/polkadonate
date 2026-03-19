@@ -1,16 +1,21 @@
 import { create } from 'zustand'
-import { CAUSES_DATA } from '@/data/causes'
 
-export const useCauseStore = create((set, get) => ({
-  causes: [...CAUSES_DATA],
+export const useCauseStore = create((set) => ({
+  causes:  [],
+  loading: false,
+  error:   null,
 
-  donate: (causeId, amount) => set((s) => ({
-    causes: s.causes.map((c) =>
-      c.id === causeId ? { ...c, raised: c.raised + amount } : c
-    ),
-  })),
+  setCauses:  (causes) => set({ causes, loading: false, error: null }),
+  setLoading: (loading) => set({ loading }),
+  setError:   (error)   => set({ error, loading: false }),
 
-  addCause: (cause) => set((s) => ({
-    causes: [cause, ...s.causes],
-  })),
+  donate: (causeId, amount) =>
+    set((s) => ({
+      causes: s.causes.map((c) =>
+        c.id === causeId ? { ...c, raised: c.raised + amount } : c
+      ),
+    })),
+
+  addCause: (cause) =>
+    set((s) => ({ causes: [cause, ...s.causes] })),
 }))

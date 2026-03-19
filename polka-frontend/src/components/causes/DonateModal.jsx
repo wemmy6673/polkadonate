@@ -1,10 +1,10 @@
-import { useState }     from 'react'
-import Modal            from '@/components/ui/Modal'
-import TokenInput       from '@/components/ui/TokenInput'
-import RateRow          from '@/components/ui/RateRow'
-import ProgressBar      from '@/components/ui/ProgressBar'
-import Button           from '@/components/ui/Button'
-import { useWalletStore } from '@/store/walletStore'
+import { useState }       from 'react'
+import Modal              from '@/components/ui/Modal'
+import TokenInput         from '@/components/ui/TokenInput'
+import RateRow            from '@/components/ui/RateRow'
+import ProgressBar        from '@/components/ui/ProgressBar'
+import Button             from '@/components/ui/Button'
+import { useWallet }      from '@/hooks/useWallet'
 import { useToastStore }  from '@/store/toastStore'
 import { useDonate }      from '@/hooks/useDonate'
 
@@ -12,7 +12,7 @@ export default function DonateModal({ open, onClose, cause }) {
   const [amount,  setAmount]  = useState('')
   const [loading, setLoading] = useState(false)
 
-  const { connected, pdt } = useWalletStore()
+  const { connected, pas } = useWallet()
   const toast = useToastStore((s) => s.add)
   const { executeDonate } = useDonate()
 
@@ -20,9 +20,9 @@ export default function DonateModal({ open, onClose, cause }) {
 
   const handleDonate = async () => {
     const amt = parseFloat(amount)
-    if (!connected)     { toast('error', 'Not Connected',       'Connect your wallet first'); return }
-    if (!amt || amt <= 0) { toast('error', 'Invalid Amount',    'Enter a PDT amount to donate'); return }
-    if (amt > pdt)        { toast('error', 'Insufficient PDT',  'Swap more DOT to get PDT tokens'); return }
+    if (!connected)       { toast('error', 'Not Connected',       'Connect your wallet first'); return }
+    if (!amt || amt <= 0) { toast('error', 'Invalid Amount',      'Enter a PAS amount to donate'); return }
+    if (amt > pas)        { toast('error', 'Insufficient PAS',    'Not enough PAS in your wallet'); return }
 
     setLoading(true)
     try {
@@ -52,29 +52,25 @@ export default function DonateModal({ open, onClose, cause }) {
       </h2>
       <p className="font-mono text-xs text-orange mb-4">// {cause.title}</p>
 
-      {/* Cause progress snapshot */}
       <ProgressBar raised={cause.raised} goal={cause.goal} showLabel />
 
-      {/* Amount input */}
       <div className="mt-5 mb-4">
         <TokenInput
           label="Donation Amount"
-          balanceLabel={`Balance: ${pdt.toLocaleString()} PDT`}
+          balanceLabel={`Balance: ${pas.toFixed(4)} PAS`}
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          symbol="PDT"
-          iconBg="rgba(255,107,26,.15)"
-          iconChar="◆"
+          symbol="PAS"
+          iconBg="rgba(230,0,122,.15)"
+          iconChar="●"
         />
       </div>
 
-      {/* Contract steps */}
       <div className="flex flex-col gap-2 mb-6">
-        <RateRow label="Step 1" value="ERC20.approve(factory, amount)" />
-        <RateRow label="Step 2" value="DonationFactory.donate(causeId, amount)" />
+        <RateRow label="Contract" value="DonationFactory.donate(causeId)" />
+        <RateRow label="Network"  value="Polkadot Hub TestNet · PAS" />
       </div>
 
-      {/* Actions */}
       <div className="flex gap-3">
         <Button variant="ghost" onClick={handleClose} disabled={loading}>
           Cancel

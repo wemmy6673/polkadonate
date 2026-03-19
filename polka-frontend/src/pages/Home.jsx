@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import Button          from '@/components/ui/Button'
 
 const STATS = [
-  { value: '142,830', label: 'PDT Raised Total'  },
-  { value: '24',      label: 'Active Causes'      },
-  { value: '1,204',   label: 'Total Donors'       },
-  { value: '98.2%',   label: 'Funds On-Chain'     },
+  { value: '—', label: 'DOT Raised Total'  },
+  { value: '—', label: 'Active Causes'     },
+  { value: '—', label: 'Total Donors'      },
+  { value: '—', label: 'Funds On-Chain'    },
 ]
 
 const HOW_IT_WORKS = [
@@ -73,8 +73,8 @@ export default function Home() {
 
         {/* CTA */}
         <div className="flex gap-4 flex-wrap">
-          <Button size="lg" onClick={() => navigate('/swap')}>⇄ Get PDT Tokens</Button>
-          <Button size="lg" variant="outline" onClick={() => navigate('/causes')}>Browse Causes →</Button>
+          <Button size="lg" onClick={() => navigate('/causes')}>Browse Causes</Button>
+          <Button size="lg" variant="outline" onClick={() => navigate('/create')}>Launch a Donation Cause →</Button>
         </div>
       </section>
 
