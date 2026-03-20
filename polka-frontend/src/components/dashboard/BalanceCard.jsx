@@ -22,7 +22,7 @@ export default function BalanceCard() {
         >
           {formatToken(dot, 4)}
         </p>
-        <p className="font-mono text-sm text-muted">DOT — Polkadot Hub Testnet</p>
+        <p className="font-mono text-sm text-muted">Polkadot Testnet</p>
         <p className="font-mono text-xs mt-1 text-muted2">
           {connected ? address : 'Connect wallet to view balance'}
         </p>
